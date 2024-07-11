@@ -2,6 +2,7 @@ const { ArtPiece } = require('../models');
 
 const getArtPieces = async (req, res) => {
   try {
+    console.log('in get art peices')
     const artPieces = await ArtPiece.findAll(); //See if better alternative to findAll
     res.json(artPieces);
   } catch (error) {

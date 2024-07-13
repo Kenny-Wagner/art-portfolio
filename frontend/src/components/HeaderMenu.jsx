@@ -9,10 +9,11 @@ const links = [
   { link: '/', label: 'Home' },
   { link: '/about', label: 'About' },
   { link: '/contact', label: 'Contact' },
-  { link: '/manage-art', label: 'Manage Art' },
   { link: '/login', label: 'Login' },
   { link: '/register', label: 'Register' },
 ];
+
+/*if(currentUser.isAdmin) links.push( { link: '/manage-art', label: 'Manage Art' } )*/
 
 const HeaderMenu = () => {
   const [opened, { toggle }] = useDisclosure(false);

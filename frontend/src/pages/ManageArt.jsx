@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Grid, Button, Modal, TextInput, Textarea, NumberInput, Image, Loader } from '@mantine/core';
+import { useNavigate } from 'react-router-dom';
+import { Container, Grid, Group, Button, Modal, Text, TextInput, Textarea, NumberInput, Loader } from '@mantine/core';
 import artService from '../services/artService';
 import ArtPieceCard from '../components/ArtPieceCard';
 
@@ -12,8 +13,9 @@ const ManageArt = () => {
   const [price, setPrice] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [editing, setEditing] = useState(null);
-
-  //const token = JSON.parse(localStorage.getItem('user')).token;
+  const [deleteId, setDeleteId] = useState(null);
+  const navigate = useNavigate();
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     artService.getArtPieces().then(response => {
@@ -22,15 +24,25 @@ const ManageArt = () => {
     });
   }, []);
 
+  const clearEditModal = () => {
+    setEditing(false); 
+    setOpened(false);
+    setEditing('');
+    setTitle('');
+    setDescription('');
+    setPrice('');
+    setImageUrl('');
+  }
+
   const handleCreateOrUpdate = () => {
     const data = { title, description, price, imageUrl };
     if (editing) {
-      artService.updateArtPiece(editing.id, data, token).then(() => {
+      artService.updateArtPiece(editing.id, data).then(() => {
         setArtPieces(artPieces.map(piece => piece.id === editing.id ? { ...piece, ...data } : piece));
         setEditing(null);
       });
     } else {
-      artService.createArtPiece(data, token).then(response => {
+      artService.createArtPiece(data).then(response => {
         setArtPieces([...artPieces, response.data]);
       });
     }
@@ -38,9 +50,23 @@ const ManageArt = () => {
   };
 
   const handleDelete = (id) => {
-    artService.deleteArtPiece(id, token).then(() => {
-      setArtPieces(artPieces.filter(piece => piece.id !== id));
-    });
+    setDeleteId(id);
+    setOpened(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (deleteId) {
+      artService.deleteArtPiece(deleteId).then(() => {
+        setArtPieces(artPieces.filter(piece => piece.id !== deleteId));
+        setDeleteId(null);
+        setDeleting(false);
+      });
+    }
+  };
+
+  const handleCancelDelete = () => {
+    setDeleteId(null);
+    setDeleting(false);
   };
 
   if (loading) return <Loader size="xl" />;
@@ -60,17 +86,25 @@ const ManageArt = () => {
               setImageUrl(artPiece.imageUrl);
               setOpened(true);
             }} mt="sm">Edit</Button>
-            <Button onClick={() => handleDelete(artPiece.id)} color="red" mt="sm">Delete</Button>
+            <Button onClick={() => setDeleting(true)} color="red" mt="sm">Delete</Button>
           </Grid.Col>
         ))}
       </Grid>
-      <Modal opened={opened} onClose={() => setOpened(false)} title={editing ? "Edit Art Piece" : "Add Art Piece"}>
+      <Modal opened={opened} onClose={clearEditModal} title={editing ? "Edit Art Piece" : "Add Art Piece"}>
         <TextInput label="Title" value={title} onChange={(e) => setTitle(e.target.value)} required />
         <Textarea label="Description" value={description} onChange={(e) => setDescription(e.target.value)} required />
         <NumberInput label="Price" value={price} onChange={(val) => setPrice(val)} required />
         <TextInput label="Image URL" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} required />
         <Button onClick={handleCreateOrUpdate} mt="md">{editing ? "Update" : "Create"}</Button>
       </Modal>
+      <Modal opened={deleting}  withCloseButton={false} centered={true} size="md">
+        <Text size="xl" ta="center">Delete art?</Text>
+        <Group justify="center" mt="lg">
+          <Button variant="filled" color="red" onClick={handleConfirmDelete}>Delete</Button>
+          <Button variant="filled" color="gray" onClick={handleCancelDelete}>Cancel</Button>  
+        </Group>
+      </Modal>
+            
     </Container>
   );
 };

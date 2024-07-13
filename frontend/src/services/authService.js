@@ -2,6 +2,10 @@ import axios from 'axios';
 
 const API_URL = `${import.meta.env.VITE_BACKEND_URL}/api/auth/`;
 
+const isAdmin = () => {
+  return JSON.parse(localStorage.getItem('user')).isAdmin;
+}
+
 const register = (username, password) => {
   return axios.post(API_URL + 'register', { username, password });
 };
@@ -19,4 +23,4 @@ const logout = () => {
   localStorage.removeItem('user');
 };
 
-export default { register, login, logout };
+export default { register, login, logout, isAdmin };

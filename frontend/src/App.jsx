@@ -9,6 +9,7 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import ManageArt from './pages/ManageArt';
 import HeaderMenu from './components/HeaderMenu'
+
 const App = () => {
   return (
     <ThemeProvider>

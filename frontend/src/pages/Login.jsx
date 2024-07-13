@@ -11,7 +11,11 @@ const Login = () => {
   const handleLogin = (event) => {
     event.preventDefault();
     authService.login(username, password).then(() => {
-      navigate('/');
+      if (authService.isAdmin() === true) {
+        navigate('/manage-art')
+      } else {
+        navigate('/');
+      }
     });
   };
 

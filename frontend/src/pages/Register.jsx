@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Text, TextInput, PasswordInput, Button } from '@mantine/core';
 import authService from '../services/authService';

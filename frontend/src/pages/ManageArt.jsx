@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Container, Grid, Group, Button, Modal, Text, TextInput, Textarea, NumberInput, Loader } from '@mantine/core';
+import { useEffect, useState } from 'react';
+import { Container, Center, Grid, Group, Button, Modal, Text, TextInput, Textarea, NumberInput, Loader } from '@mantine/core';
 import artService from '../services/artService';
-import ArtPieceCard from '../components/ArtPieceCard';
+import ArtCard from '../components/ArtCard';
 
 const ManageArt = () => {
-  const [artPieces, setArtPieces] = useState([]);
+  const [art, setArt] = useState([]);
   const [loading, setLoading] = useState(true);
   const [opened, setOpened] = useState(false);
   const [title, setTitle] = useState('');
@@ -14,12 +13,11 @@ const ManageArt = () => {
   const [imageUrl, setImageUrl] = useState('');
   const [editing, setEditing] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
-  const navigate = useNavigate();
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
-    artService.getArtPieces().then(response => {
-      setArtPieces(response.data);
+    artService.getArt().then(response => {
+      setArt(response.data);
       setLoading(false);
     });
   }, []);
@@ -73,11 +71,13 @@ const ManageArt = () => {
 
   return (
     <Container>
-      <Button onClick={() => setOpened(true)} mb="md">Add Art Piece</Button>
+      <Center  mt="md">
+        <Button onClick={() => setOpened(true)} mb="md">Add Art</Button> 
+      </Center>
       <Grid>
-        {artPieces.map(artPiece => (
-          <Grid.Col key={artPiece.id} span={4}>
-            <ArtPieceCard artPiece={artPiece} />
+        {art.map(art => (
+          <Grid.Col key={art.id} span={4}>
+            <ArtCard art={art} />
             <Button onClick={() => {
               setEditing(artPiece);
               setTitle(artPiece.title);
@@ -90,14 +90,14 @@ const ManageArt = () => {
           </Grid.Col>
         ))}
       </Grid>
-      <Modal opened={opened} onClose={clearEditModal} title={editing ? "Edit Art Piece" : "Add Art Piece"}>
+      <Modal opened={opened} onClose={clearEditModal} title={editing ? "Edit Art" : "Add Art"}>
         <TextInput label="Title" value={title} onChange={(e) => setTitle(e.target.value)} required />
         <Textarea label="Description" value={description} onChange={(e) => setDescription(e.target.value)} required />
         <NumberInput label="Price" value={price} onChange={(val) => setPrice(val)} required />
         <TextInput label="Image URL" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} required />
         <Button onClick={handleCreateOrUpdate} mt="md">{editing ? "Update" : "Create"}</Button>
       </Modal>
-      <Modal opened={deleting}  withCloseButton={false} centered={true} size="md">
+      <Modal opened={deleting}  withCloseButton={false} closeOnClickOutside={false} centered={true} size="md">
         <Text size="xl" ta="center">Delete art?</Text>
         <Group justify="center" mt="lg">
           <Button variant="filled" color="red" onClick={handleConfirmDelete}>Delete</Button>

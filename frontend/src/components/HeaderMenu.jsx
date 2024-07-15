@@ -1,27 +1,28 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Menu, Group, Center, Burger, Container } from '@mantine/core';
+import { Link, useNavigate } from 'react-router-dom';
+import { Menu, Group, Center, Button, Divider, Container } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconChevronDown } from '@tabler/icons-react';
 import classes from './HeaderMenu.module.css';
 
-const HeaderMenu = () => {
+const HeaderMenu = ({user, onLogout}) => {
+  const links = [
+    { link: '/', label: 'Collections' },
+    { link: '/about', label: 'About' },
+    { link: '/contact', label: 'Contact' },
+    user?.isAdmin ? { link: '/manage-art', label: 'Manage Art' } : null
+  ].filter(Boolean);
+
   const [opened, { toggle }] = useDisclosure(false);
-  const [loggedIn, setLoggedIn] = useState(false)
-const links = [
-  { link: '/', label: 'Home' },
-  { link: '/about', label: 'About' },
-  { link: '/contact', label: 'Contact' },
-  { link: '/login', label: 'Login' },
-  { link: '/register', label: 'Register' },
-];
+  
+  const navigate = useNavigate()
 
-/*if(currentUser.isAdmin) links.push( { link: '/manage-art', label: 'Manage Art' } )*/
-
-  useEffect(()=> {
-    setLoggedIn(authService.isLoggedIn())
-  }, [setLoggedIn])
-
+  const handleLoginLogout =() => {
+    if (!user) {
+      navigate('/login')
+    } else {
+      onLogout()
+    }
+  }
   const items = links.map((link) => {
     const menuItems = link.links?.map((item) => (
       <Menu.Item key={item.link}>
@@ -62,7 +63,15 @@ const links = [
           <Group spacing={5} className={classes.links}>
             {items}
           </Group>
-          <Burger opened={opened} onClick={toggle} className={classes.burger} size="sm" />
+          <Divider my="sm" />
+          <Group pb="xl" px="md" mt="md">
+            <Button variant="default" onClick={handleLoginLogout}>
+              {user ? 'Log out': 'Log in'}
+            </Button>
+            {!user && <Button onClick ={() => navigate('/register')}> 
+              Register
+            </Button>} 
+          </Group>
         </div>
       </Container>
     </header>

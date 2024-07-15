@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Text, TextInput, PasswordInput, Button } from '@mantine/core';
 import authService from '../services/authService';
 
-const Login = () => {
+const Login = ({onLogin}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = (event) => {
     event.preventDefault();
-    authService.login(username, password).then(() => {
-      if (authService.isAdmin() === true) {
+    authService.login(username, password).then((userInfo) => {
+      onLogin(userInfo)
+      if (userInfo.isAdmin) {
         navigate('/manage-art')
       } else {
         navigate('/');

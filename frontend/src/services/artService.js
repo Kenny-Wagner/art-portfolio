@@ -6,26 +6,26 @@ const getToken = () => {
   return JSON.parse(localStorage.getItem('user')).token;
 }
 
-const getArtPieces = () => {
+const getArt = () => {
   return axios.get(API_URL);
 };
 
-const createArtPiece = (data) => {
+const createArt = (data) => {
   return axios.post(API_URL, data, {
     headers: { 'Authorization': `Bearer ${getToken()}` },
   });
 };
 
-const updateArtPiece = (id, data) => {
+const updateArt = (id, data) => {
   return axios.put(API_URL + id, data, {
     headers: { 'Authorization': `Bearer ${getToken()}` },
   });
 };
 
-const deleteArtPiece = (id) => {
+const deleteArt = (id) => {
   return axios.delete(API_URL + id, {
     headers: { 'Authorization': `Bearer ${getToken()}` },
   });
 };
 
-export default { getArtPieces, createArtPiece, updateArtPiece, deleteArtPiece };
+export default { getArt, createArt, updateArt, deleteArt };

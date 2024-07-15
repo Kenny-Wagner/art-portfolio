@@ -1,4 +1,3 @@
-import React from 'react';
 import { Container, Text, Image } from '@mantine/core';
 
 const About = () => {

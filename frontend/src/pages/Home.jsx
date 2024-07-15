@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Container, Grid, Loader } from '@mantine/core';
-import ArtPieceCard from '../components/ArtPieceCard';
+import ArtCard from '../components/ArtCard';
 import artService from '../services/artService';
 
 const Home = () => {
-  const [artPieces, setArtPieces] = useState([]);
+  const [art, setArt] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    artService.getArtPieces().then(response => {
-      setArtPieces(response.data);
+    artService.getArt().then(response => {
+      setArt(response.data);
       setLoading(false);
     });
   }, []);
@@ -19,9 +19,9 @@ const Home = () => {
   return (
     <Container>
       <Grid>
-        {artPieces.map(artPiece => (
-          <Grid.Col key={artPiece.id} span={4}>
-            <ArtPieceCard artPiece={artPiece} />
+        {art.map(piece => (
+          <Grid.Col key={piece.id} span={4}>
+            <ArtCard art={piece} />
           </Grid.Col>
         ))}
       </Grid>

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Container, Text, TextInput, Textarea, Button } from '@mantine/core';
 
 const Contact = () => {

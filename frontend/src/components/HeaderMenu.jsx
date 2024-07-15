@@ -5,6 +5,9 @@ import { useDisclosure } from '@mantine/hooks';
 import { IconChevronDown } from '@tabler/icons-react';
 import classes from './HeaderMenu.module.css';
 
+const HeaderMenu = () => {
+  const [opened, { toggle }] = useDisclosure(false);
+  const [loggedIn, setLoggedIn] = useState(false)
 const links = [
   { link: '/', label: 'Home' },
   { link: '/about', label: 'About' },
@@ -15,8 +18,9 @@ const links = [
 
 /*if(currentUser.isAdmin) links.push( { link: '/manage-art', label: 'Manage Art' } )*/
 
-const HeaderMenu = () => {
-  const [opened, { toggle }] = useDisclosure(false);
+  useEffect(()=> {
+    setLoggedIn(authService.isLoggedIn())
+  }, [setLoggedIn])
 
   const items = links.map((link) => {
     const menuItems = link.links?.map((item) => (

@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Container, Center, Grid, Group, Button, Modal, Text, TextInput, Textarea, NumberInput, Loader } from '@mantine/core';
+import { useNavigate } from 'react-router-dom';
+import { Container, Center, Grid, Group, Button, FileButton,
+   Modal, Text, TextInput, Textarea, NumberInput, Loader } from '@mantine/core';
 import artService from '../services/artService';
 import ArtCard from '../components/ArtCard';
 
-const ManageArt = () => {
+const ManageArt = ({user}) => {
   const [art, setArt] = useState([]);
   const [loading, setLoading] = useState(true);
   const [opened, setOpened] = useState(false);
@@ -12,8 +14,9 @@ const ManageArt = () => {
   const [price, setPrice] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [editing, setEditing] = useState(null);
-  const [deleteId, setDeleteId] = useState(null);
   const [deleting, setDeleting] = useState(false);
+  
+  const navigate = useNavigate()
 
   useEffect(() => {
     artService.getArt().then(response => {
@@ -22,10 +25,12 @@ const ManageArt = () => {
     });
   }, []);
 
-  const clearEditModal = () => {
-    setEditing(false); 
+  const clearModal = () => {
+    if (editing) {
+        setEditing(false);
+        setEditing('');
+    }
     setOpened(false);
-    setEditing('');
     setTitle('');
     setDescription('');
     setPrice('');
@@ -35,39 +40,37 @@ const ManageArt = () => {
   const handleCreateOrUpdate = () => {
     const data = { title, description, price, imageUrl };
     if (editing) {
-      artService.updateArtPiece(editing.id, data).then(() => {
-        setArtPieces(artPieces.map(piece => piece.id === editing.id ? { ...piece, ...data } : piece));
+      artService.updateArt(editing.id, data).then(() => {
+        setArt(art.map(piece => piece.id === editing.id ? { ...piece, ...data } : piece));
         setEditing(null);
       });
     } else {
-      artService.createArtPiece(data).then(response => {
-        setArtPieces([...artPieces, response.data]);
+      artService.createArt(data).then(response => {
+        setArt([...art, response.data]);
       });
     }
     setOpened(false);
-  };
-
-  const handleDelete = (id) => {
-    setDeleteId(id);
-    setOpened(true);
+    clearModal()
   };
 
   const handleConfirmDelete = () => {
-    if (deleteId) {
-      artService.deleteArtPiece(deleteId).then(() => {
-        setArtPieces(artPieces.filter(piece => piece.id !== deleteId));
-        setDeleteId(null);
-        setDeleting(false);
+    if (deleting) {
+      artService.deleteArt(deleting.id).then(() => {
+        setArt(art.filter(piece => piece.id !== deleting.id));
+        setDeleting(null);
       });
     }
   };
 
   const handleCancelDelete = () => {
-    setDeleteId(null);
-    setDeleting(false);
+    setDeleting(null);
   };
 
   if (loading) return <Loader size="xl" />;
+
+  if (!user?.isAdmin){
+    navigate('/')
+  }
 
   return (
     <Container>
@@ -75,9 +78,9 @@ const ManageArt = () => {
         <Button onClick={() => setOpened(true)} mb="md">Add Art</Button> 
       </Center>
       <Grid>
-        {art.map(art => (
-          <Grid.Col key={art.id} span={4}>
-            <ArtCard art={art} />
+        {art.map(artPiece => (
+          <Grid.Col key={artPiece.id} span={4}>
+            <ArtCard art={artPiece} />
             <Button onClick={() => {
               setEditing(artPiece);
               setTitle(artPiece.title);
@@ -86,11 +89,11 @@ const ManageArt = () => {
               setImageUrl(artPiece.imageUrl);
               setOpened(true);
             }} mt="sm">Edit</Button>
-            <Button onClick={() => setDeleting(true)} color="red" mt="sm">Delete</Button>
+            <Button onClick={() => setDeleting(artPiece)} color="red" mt="sm">Delete</Button>
           </Grid.Col>
         ))}
       </Grid>
-      <Modal opened={opened} onClose={clearEditModal} title={editing ? "Edit Art" : "Add Art"}>
+      <Modal opened={opened} onClose={clearModal} title={editing ? "Edit Art" : "Add Art"}>
         <TextInput label="Title" value={title} onChange={(e) => setTitle(e.target.value)} required />
         <Textarea label="Description" value={description} onChange={(e) => setDescription(e.target.value)} required />
         <NumberInput label="Price" value={price} onChange={(val) => setPrice(val)} required />
@@ -98,7 +101,7 @@ const ManageArt = () => {
         <Button onClick={handleCreateOrUpdate} mt="md">{editing ? "Update" : "Create"}</Button>
       </Modal>
       <Modal opened={deleting}  withCloseButton={false} closeOnClickOutside={false} centered={true} size="md">
-        <Text size="xl" ta="center">Delete art?</Text>
+        <Text size="xl" ta="center">Delete {deleting?.title}?</Text>
         <Group justify="center" mt="lg">
           <Button variant="filled" color="red" onClick={handleConfirmDelete}>Delete</Button>
           <Button variant="filled" color="gray" onClick={handleCancelDelete}>Cancel</Button>  

@@ -9,7 +9,6 @@ const register = (username, password) => {
 const login = (username, password) => {
   return axios.post(API_URL + 'login', { username, password }).then(response => {
     if (response.data.token) {
-      console.log(JSON.stringify(response.data))
       localStorage.setItem('user', JSON.stringify(response.data));
     }
     return response.data;

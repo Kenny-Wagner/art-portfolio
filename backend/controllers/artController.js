@@ -1,4 +1,5 @@
 const { ArtPiece } = require('../models');
+const { deleteImage } = require('../util/s3')
 
 const getArtPieces = async (req, res) => {
   try {
@@ -41,6 +42,7 @@ const deleteArtPiece = async (req, res) => {
     if (!artPiece) return res.status(404).json({ error: 'ArtPiece not found' });
 
     await artPiece.destroy();
+    await deleteImage(artPiece.imageUrl)
     res.json({ message: 'ArtPiece deleted' });
   } catch (error) {
     res.status(400).json({ error: error.message });

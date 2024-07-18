@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Center, Grid, Group, Button, FileButton,
-   Modal, Text, TextInput, Textarea, NumberInput, Loader } from '@mantine/core';
+   Modal, Text, TextInput, Textarea, NumberInput, Loader, Progress  } from '@mantine/core';
 import artService from '../services/artService';
+import imageService from '../services/imageService';
 import ArtCard from '../components/ArtCard';
 
 const ManageArt = ({user}) => {
@@ -12,10 +13,18 @@ const ManageArt = ({user}) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
   const [editing, setEditing] = useState(null);
   const [deleting, setDeleting] = useState(false);
-  
+  const [file, setFile] = useState(null);
+  const [fileLink, setFileLink] = useState('')
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const resetRef = useRef(null);
+
+  const clearFile = () => {
+    setFile(null);
+    setFileLink('')
+    resetRef.current?.();
+  };
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -34,11 +43,30 @@ const ManageArt = ({user}) => {
     setTitle('');
     setDescription('');
     setPrice('');
-    setImageUrl('');
+    ('');
+    setFileLink('')
+    setFile(null)
   }
 
+  const handleUploadComplete = (fileLink) => {
+    setUploadProgress(0)
+    setFileLink(fileLink)
+  }
+  const onFileSelect = async (file) => {
+    setFile(file)
+    const key = `images/${file.name}`
+    const content_type = file.type
+    const {fileLink, signedUrl} = await imageService.getSignedUrl({key, content_type})
+    await imageService.uploadFileToSignedUrl(
+      signedUrl,
+      file,
+      content_type,
+      null,
+      () => handleUploadComplete(fileLink)
+    )
+  }
   const handleCreateOrUpdate = () => {
-    const data = { title, description, price, imageUrl };
+    const data = { title, description, price, imageUrl: fileLink };
     if (editing) {
       artService.updateArt(editing.id, data).then(() => {
         setArt(art.map(piece => piece.id === editing.id ? { ...piece, ...data } : piece));
@@ -86,7 +114,6 @@ const ManageArt = ({user}) => {
               setTitle(artPiece.title);
               setDescription(artPiece.description);
               setPrice(artPiece.price);
-              setImageUrl(artPiece.imageUrl);
               setOpened(true);
             }} mt="sm">Edit</Button>
             <Button onClick={() => setDeleting(artPiece)} color="red" mt="sm">Delete</Button>
@@ -97,8 +124,20 @@ const ManageArt = ({user}) => {
         <TextInput label="Title" value={title} onChange={(e) => setTitle(e.target.value)} required />
         <Textarea label="Description" value={description} onChange={(e) => setDescription(e.target.value)} required />
         <NumberInput label="Price" value={price} onChange={(val) => setPrice(val)} required />
-        <TextInput label="Image URL" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} required />
-        <Button onClick={handleCreateOrUpdate} mt="md">{editing ? "Update" : "Create"}</Button>
+        <Group justify="center" mt="md">
+        <Button onClick={handleCreateOrUpdate} disabled={!fileLink && !editing}>{editing ? "Update" : "Create"}</Button>
+        <FileButton onChange={onFileSelect} accept="image/png,image/jpeg" loading={uploadProgress > 0} disabled={fileLink}>
+          {(props) => <Button {...props}>{!fileLink ? "Upload image": "File Uploaded!"}</Button>}
+        </FileButton>
+        <Button disabled={!file} color="red" onClick={clearFile}>
+          Reset
+        </Button>
+      </Group>
+      {file && (
+        <Text size="sm" ta="center" mt="sm">
+          Picked file: {file.name}
+        </Text>
+      )}
       </Modal>
       <Modal opened={deleting}  withCloseButton={false} closeOnClickOutside={false} centered={true} size="md">
         <Text size="xl" ta="center">Delete {deleting?.title}?</Text>

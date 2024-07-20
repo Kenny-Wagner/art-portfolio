@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import "@mantine/core/styles.css"; //Do not remove
-import ThemeProvider from './styles/theme';
+import { MantineProvider, createTheme } from '@mantine/core';
 import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
@@ -28,7 +28,7 @@ const App = () => {
     }
   }, [])
   return (
-    <ThemeProvider>
+    <MantineProvider>
       <Router>
         <HeaderMenu user = {user} onLogout = {onLogout}/>
         <Routes>
@@ -40,7 +40,7 @@ const App = () => {
           <Route path="/manage-art" element={<ManageArt user={user} />} />
         </Routes>
       </Router>
-    </ThemeProvider>
+    </MantineProvider> 
   );
 };
 

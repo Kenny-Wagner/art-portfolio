@@ -19,7 +19,7 @@
 }
 
 .link {
-  margin: 0 1rem; /* Adjust this to increase space between links */
+  margin: 0 2rem; /* Adjust this to increase space between links */
   text-decoration: none;
   color: #000;
   font-weight: 500;

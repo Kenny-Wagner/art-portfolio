@@ -1,0 +1,58 @@
+.card {
+    position: relative;
+    height: 400px; /* Increased height */
+    width: 300px; /* Added width for better size control */
+    background-color: var(--mantine-color-gray-0);
+    background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
+    overflow: hidden; /* Ensure content stays within card bounds */
+    cursor: pointer;
+    border-radius: var(--mantine-radius-md); /* Ensure border-radius is consistent */
+    box-shadow: var(--mantine-shadow-lg); /* Use Mantine's shadow */
+  }
+  
+  .card:hover .image {
+    transform: scale(1.03);
+  }
+  
+  .image {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center; /* Ensure image is centered */
+    transition: transform 500ms ease;
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 20%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.85) 90%);
+  }
+  
+  .content {
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    z-index: 1;
+    padding: 16px; /* Added padding for better content spacing */
+  }
+  
+  .title {
+    color: var(--mantine-color-white);
+    margin-bottom: 5px;
+    font-size: 1.2rem; /* Increased font size */
+  }
+  
+  .bodyText {
+    color: var(--mantine-color-dark-2);
+    margin-left: 7px;
+  }
+  
+  .description {
+    color: var(--mantine-color-dark-2);
+  }
+  

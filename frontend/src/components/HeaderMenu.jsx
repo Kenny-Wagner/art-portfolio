@@ -10,9 +10,9 @@ const HeaderMenu = ({ user, onLogout }) => {
       link: '#1',
       label: 'Collections',
       links: [
-        { link: '/', label: 'All' },
-        { link: '/3', label: 'Collection 2' },
-        { link: '/4', label: 'Collection 3' },
+        { link: '/?filter=all', label: 'All' },
+        { link: '/?filter=animation', label: 'Animations' },
+        { link: '/?filter=fanart', label: 'Fan Art' },
       ],
     },
     { link: '/about', label: 'About' },
@@ -33,7 +33,7 @@ const HeaderMenu = ({ user, onLogout }) => {
 
   const items = links.map((link) => {
     const menuItems = link.links?.map((item) => (
-      <Menu.Item key={item.link}>    
+      <Menu.Item key={item.label}>    
         <Link to={item.link} className={classes.link}>
           {item.label}
          </Link>

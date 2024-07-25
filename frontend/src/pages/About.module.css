@@ -1,0 +1,41 @@
+.artPaper {
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    border-radius: 16px;
+    max-width: 400px;
+  }
+  
+  .artInfo {
+    margin-left: 16px;
+    flex-grow: 1;
+  }
+  
+  .artTitle, .artDate, .artPrice {
+    color: purple;
+  }
+  
+  .viewButton {
+    background-color: red;
+  }
+  
+  .aboutPaper, .eventPaper {
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    margin-top: 16px;
+  }
+  
+  .profileContainer {
+    display: flex;
+    align-items: flex-start;
+  }
+  
+  .profileImage {
+    margin-right: 16px;
+  }
+  
+  .aboutText {
+    white-space: pre-wrap;
+  }
+  

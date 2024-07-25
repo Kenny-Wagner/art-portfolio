@@ -1,22 +1,39 @@
-import { Card, Image, Text, Button } from '@mantine/core';
-
+import { IconEye, IconMessageCircle } from '@tabler/icons-react';
+import { Card, Text, Group, Center, useMantineTheme, rem } from '@mantine/core';
+import classes from './ArtCard.module.css';
 
 const ArtCard = ({ art }) => {
+
   return (
-    <Card shadow="sm" padding="lg">
-      <Card.Section>
-        <Image src={art.imageUrl} height={160} alt={art.title} />
-      </Card.Section>
+    <Card
+      p="lg"
+      shadow="lg"
+      className={classes.card}
+      radius="md"
+    >
+      <div
+        className={classes.image}
+        style={{
+          backgroundImage: `url(${art.imageUrl})`,
+        }}
+      />
+      <div className={classes.overlay} />
 
-      <Text weight={500} size="lg" mt="md">{art.title}</Text>
-      <Text mt="sm">{art.description}</Text>
-      <Text weight={700} size="xl" mt="md">${art.price}</Text>
+      <div className={classes.content}>
+        <div>
+          <Text size="lg" className={classes.title} fw={500}>
+            {art.title}
+          </Text>
 
-      <Button variant="light" color="blue" fullWidth mt="md" radius="md">
-        Buy Now
-      </Button>
+          <Group position="apart" spacing="xs">
+            <Text size="sm" className={classes.description}>
+              {art.description}
+            </Text>
+          </Group>
+        </div>
+      </div>
     </Card>
   );
-};
+}
 
 export default ArtCard;

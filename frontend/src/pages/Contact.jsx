@@ -1,8 +1,44 @@
-import { TextInput, Textarea, SimpleGrid, Group, Title, Button, Container } from '@mantine/core';
+import { useState} from 'react'
+import { TextInput, Textarea, SimpleGrid, Group, Title, Button, Container, Text } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import ButtonProgress from '../components/ButtonProgress'
 
 const Contact = () => {
-  
+  const [result, setResult] = useState("nothing");
+
+  const onSubmit = async (event) => {
+    console.log('the event in contact is',event)
+    console.log(form.getValues())
+    event.preventDefault();
+    setResult("Sending....");
+    const formData = form.getValues()
+
+    Object.assign(formData, {access_key: "8c42e866-4b13-41bc-9ac7-40ba7889673f"}); // Get access key from web3forms
+
+    const response = await fetch("https://api.web3forms.com/submit", {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify(formData)
+    });
+
+
+    const data = await response.json();
+
+    if (data.success) {
+      setResult("Form Submitted Successfully");
+    } else {
+      console.log("Error", data);
+      setResult(data.message);
+    }
+  };
+
+  const onButtonComplete = () => {
+    form.reset()
+  }
+
   const form = useForm({
     initialValues: {
       name: '',
@@ -17,9 +53,10 @@ const Contact = () => {
     },
   });
 
+  const formId = 'contact-form'
   return (
     <Container style={{ maxWidth: '1000px' }}>
-      <form onSubmit={form.onSubmit(() => {})}>
+      <form id = {formId} onSubmit={(event) => onSubmit(event)}>
         <Title
           order={2}
           size="h1"
@@ -68,9 +105,13 @@ const Contact = () => {
         />
 
         <Group justify="center" mt="xl">
-          <Button type="submit" size="md">
-            Send message
-          </Button>
+        <ButtonProgress
+        defaultText="Send Message" 
+        loadingText="Sending..." 
+        completeText="Message sent!"
+        formId = {formId}
+        onButtonComplete={onButtonComplete}
+        />
         </Group>
       </form>
     </Container>

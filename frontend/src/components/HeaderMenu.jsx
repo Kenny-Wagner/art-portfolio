@@ -48,7 +48,7 @@ const HeaderMenu = ({ user, onLogout }) => {
             <a href={link.link} className={classes.link} onClick={(event) => navigate(link.link)}>
               <Center>
                 <span>{link.label}</span>
-                <IconChevronDown size="0.9rem" stroke={1.5} />
+                <IconChevronDown size="1rem" stroke={1.5} />
               </Center>
             </a>
           </Menu.Target>

@@ -1,5 +1,8 @@
 .header {
   padding: 1rem 2rem; /* Adjust this for overall padding */
+  margin-bottom: rem(40px);
+  background-color: var(--mantine-color-body);
+  border-bottom: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
 }
 
 .inner {
@@ -19,10 +22,16 @@
 }
 
 .link {
-  margin: 0 2rem; /* Adjust this to increase space between links */
+  display: block;
+  padding: rem(px) rem(12px);
   text-decoration: none;
+  border-radius: var(--mantine-radius-lg);
   color: #000;
   font-weight: 500;
+  font-size: var(--mantine-font-size-lg);
+  @mixin hover {
+    background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
+  }
 }
 
 .authButtons {

@@ -31,12 +31,6 @@ const ArtCard = ({ art, setArtpiece, open }) => {
           <Text size="lg" className={classes.title} fw={500}>
             {art.title}
           </Text>
-
-          <Group position="apart" spacing="xs">
-            <Text size="sm" className={classes.description}>
-              {art.description}
-            </Text>
-          </Group>
         </div>
       </div>
     </Card>

@@ -11,13 +11,29 @@ module.exports = (sequelize, DataTypes) => {
           type: DataTypes.STRING,
           allowNull: false,
         },
+        year: {
+          type: DataTypes.INTEGER,
+          allowNull: false
+        },
+        size: {
+          type: DataTypes.STRING,
+          allowNull: true
+        },
+        medium: {
+          type: DataTypes.STRING,
+          allowNull: true
+        },
         description: {
           type: DataTypes.TEXT,
           allowNull: false,
         },
         price: {
-          type: DataTypes.FLOAT,
-          allowNull: false,
+          type: DataTypes.INTEGER,
+          allowNull: true,
+        },
+        sold : {
+          type: DataTypes.BOOLEAN,
+          allowNull: true
         },
         imageUrl: {
           type: DataTypes.STRING,
@@ -25,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         type: {
           type: DataTypes.STRING,
-          allowNull: true
+          allowNull: false
         }
       },
       {

@@ -12,7 +12,7 @@ const Contact = () => {
     event.preventDefault();
     const formData = form.getValues()
 
-    Object.assign(formData, {access_key: '8c42e866-4b13-41bc-9ac7-40ba7889673f'});
+    Object.assign(formData, {access_key: accessKey});
 
     try {
       const response = await fetch("https://api.web3forms.com/submit", {
@@ -30,7 +30,7 @@ const Contact = () => {
     } catch (error) {
       console.log('error is', error.message)
       setEmailFailed(true)
-      
+
       setTimeout(()=> {
         setEmailFailed(false)
         form.reset()

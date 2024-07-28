@@ -4,7 +4,7 @@ module.exports = {
   up: async ({ context: queryInterface }) => {
     await queryInterface.addColumn('artpieces', 'type', {
       type: DataTypes.STRING,
-      defaultValue: DataTypes.NULL
+      allowNull: false
     })
   },
   down: async ({ context: queryInterface }) => {

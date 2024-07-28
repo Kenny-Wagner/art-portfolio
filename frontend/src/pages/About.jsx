@@ -9,7 +9,8 @@ const About = () => {
 
   useEffect(() => {
     artService.getArt().then((response) => {
-      setArt(response.data);
+      const filteredArt = response.data.filter((art) => art.type !== 'animation' && art.sold === true)
+      setArt(filteredArt);
     });
   }, []);
 
@@ -18,7 +19,7 @@ const About = () => {
       <Paper className={classes.aboutPaper}>
         <div className={classes.profileContainer}>
           <Image
-            src='https://tibialrose.s3.us-east-2.amazonaws.com/public/images/cat.webp'
+            src={`${import.meta.env.VITE_BACKEND_URL}/rose_nonprofessional.jpg`}
             alt="Profile"
             width={100}
             height={100}

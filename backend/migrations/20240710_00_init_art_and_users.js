@@ -34,7 +34,7 @@ module.exports = {
               },
               price: {
                 type: DataTypes.FLOAT,
-                allowNull: false,
+                allowNull: true,
               },
               image_url: {
                 type: DataTypes.STRING,

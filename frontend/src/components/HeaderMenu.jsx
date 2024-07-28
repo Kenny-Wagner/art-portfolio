@@ -13,6 +13,7 @@ const HeaderMenu = ({ user, onLogout }) => {
         { link: '/?filter=all', label: 'All' },
         { link: '/?filter=animation', label: 'Animations' },
         { link: '/?filter=fanart', label: 'Fan Art' },
+        { link: '/?filter=original', label: 'Originals' }
       ],
     },
     { link: '/about', label: 'About' },

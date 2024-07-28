@@ -1,15 +1,22 @@
-import { IconEye, IconMessageCircle } from '@tabler/icons-react';
-import { Card, Text, Group, Center, useMantineTheme, rem } from '@mantine/core';
+import { Card, Text, Group } from '@mantine/core';
 import classes from './ArtCard.module.css';
 
-const ArtCard = ({ art }) => {
+const ArtCard = ({ art, setArtpiece, open }) => {
 
+  const handleClick = () => {
+    setArtpiece(art)
+    setTimeout(() => {
+      open();
+    }, 1); //Need or else inital transition on modal open doesn't render
+  }
   return (
     <Card
       p="lg"
       shadow="lg"
       className={classes.card}
       radius="md"
+      component="button"
+      onClick={handleClick}
     >
       <div
         className={classes.image}

@@ -1,7 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import "@mantine/core/styles.css"; //Do not remove
+import '@mantine/carousel/styles.css';
 import { MantineProvider } from '@mantine/core';
-import Home from './pages/Home';
+import Collections from './pages/Collections';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Register from './pages/Register';
@@ -39,7 +40,7 @@ const App = () => {
           <HeaderMenu user={user} onLogout={onLogout} />
           <main className={classes.mainContent}>
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<Collections />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/register" element={<Register />} />

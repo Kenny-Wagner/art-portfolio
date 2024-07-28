@@ -1,25 +1,41 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Container, Grid, Loader } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 import ArtCard from '../components/ArtCard';
 import artService from '../services/artService';
+import ArtModal from '../components/ArtModal'
 
-const Home = () => {
+const Collections = () => {
   const [art, setArt] = useState([]);
   const [loading, setLoading] = useState(true);
   const location = useLocation()
+  const [artpiece, setArtpiece]= useState(null)
+  const [opened, { open, close }] = useDisclosure(false);
 
   const queryParams = new URLSearchParams(location.search);
+
   const filter = queryParams.get('filter') || 'all';
-  
+  const id = Number(queryParams.get('id')) || null;
+
   const filteredArt = () => {
     return filter === 'all' ? art : art.filter((piece) => piece.type === filter)
   }
+
   useEffect(() => {
     artService.getArt().then(response => {
       setArt(response.data);
       setLoading(false);
+      
+      if(id) {
+        const filteredPiece = response.data.find((piece) => piece.id === id)
+        setArtpiece(filteredPiece)
+        setTimeout(() => {
+          open()
+        }, 1)
+      }
     });
+
   }, []);
 
   if (loading) return <Loader size='xl' />;
@@ -29,12 +45,13 @@ const Home = () => {
       <Grid>
         {filteredArt().map(piece => (
           <Grid.Col key={piece.id} span={4}>
-            <ArtCard art={piece} />
+            <ArtCard art={piece} setArtpiece={setArtpiece} open={open} />
           </Grid.Col>
         ))}
       </Grid>
+      <ArtModal artpiece= {artpiece} opened = {opened} close = {close}  />
     </Container>
   );
 };
 
-export default Home;
+export default Collections;

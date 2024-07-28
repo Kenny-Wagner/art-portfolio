@@ -1,0 +1,42 @@
+.modal {
+    max-width: 80vw;
+    max-height: 80vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .flexContainer {
+    height: 100%;
+    width: 100%;
+  }
+  
+  .image {
+    max-width: 50vw;
+    max-height: 50vh;
+    object-fit: contain;
+  }
+  
+  .flexColumn {
+    flex: 1;
+    max-height: 50vh;
+  }
+  
+  .paperTitle {
+    max-width: 25vw;
+    margin-bottom: 20px;
+  }
+  
+  .paperDescription {
+    flex-grow: 1;
+    display: flex;
+    align-items: flex-start;
+    max-width: 25vw;
+    max-height: calc(100% - 20px - 44px - 12px);
+    overflow-y: auto;
+    word-wrap: break-word;
+    white-space: normal;
+    padding-right: 10px;
+  }
+  

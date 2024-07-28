@@ -4,38 +4,37 @@ import { useForm } from '@mantine/form';
 import ButtonProgress from '../components/ButtonProgress'
 
 const Contact = () => {
-  const [result, setResult] = useState("nothing");
+  const [emailFailed, setEmailFailed] = useState(false);
 
   const accessKey = import.meta.env.VITE_WEB3_KEY //access key from web3forms
 
-  console.log('access key is', accessKey)
-
   const onSubmit = async (event) => {
-    console.log('the event in contact is',event)
-    console.log(form.getValues())
     event.preventDefault();
-    setResult("Sending....");
     const formData = form.getValues()
 
-    Object.assign(formData, {access_key: accessKey});
+    Object.assign(formData, {access_key: '8c42e866-4b13-41bc-9ac7-40ba7889673f'});
 
-    const response = await fetch("https://api.web3forms.com/submit", {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify(formData)
-    });
-
-
-    const data = await response.json();
-
-    if (data.success) {
-      setResult("Form Submitted Successfully");
-    } else {
-      console.log("Error", data);
-      setResult(data.message);
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify(formData)
+      })
+      
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
+    } catch (error) {
+      console.log('error is', error.message)
+      setEmailFailed(true)
+      
+      setTimeout(()=> {
+        setEmailFailed(false)
+        form.reset()
+      }, 1500)
     }
   };
 
@@ -115,6 +114,8 @@ const Contact = () => {
         completeText="Message sent!"
         formId = {formId}
         onButtonComplete={onButtonComplete}
+        emailFailed={emailFailed}
+
         />
         </Group>
       </form>

@@ -15,22 +15,21 @@ const  ButtonProgress = ({defaultText, loadingText, completeText, formId, onButt
     () =>
       setProgress((current) => {
         if (current < 100) {
-          return current + 2;
+          return current + 3;
         }
-
         interval.stop();
         setLoaded(true);
-        setTimeout(()=> setLoaded(false), 1000)
-        onButtonComplete()
+        setTimeout(()=> {
+          setLoaded(false)
+          onButtonComplete()
+        }, 700)
         return 0;
-      }),
-    20
-  );
+      }), 20 );
 
   return (
     <Button type='submit' form={formId}
       className={classes.button}
-      onClick={() => handleButtonClick}
+      onClick={handleButtonClick}
       color={loaded ? 'teal' : theme.primaryColor}
     >
       <div className={classes.label}>

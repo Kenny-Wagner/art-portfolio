@@ -6,6 +6,10 @@ import ButtonProgress from '../components/ButtonProgress'
 const Contact = () => {
   const [result, setResult] = useState("nothing");
 
+  const accessKey = import.meta.env.VITE_WEB3_KEY //access key from web3forms
+
+  console.log('access key is', accessKey)
+
   const onSubmit = async (event) => {
     console.log('the event in contact is',event)
     console.log(form.getValues())
@@ -13,7 +17,7 @@ const Contact = () => {
     setResult("Sending....");
     const formData = form.getValues()
 
-    Object.assign(formData, {access_key: "8c42e866-4b13-41bc-9ac7-40ba7889673f"}); // Get access key from web3forms
+    Object.assign(formData, {access_key: accessKey});
 
     const response = await fetch("https://api.web3forms.com/submit", {
       headers: {

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation} from 'react-router-dom';
 import "@mantine/core/styles.css"; //Do not remove
 import '@mantine/carousel/styles.css';
 import { MantineProvider } from '@mantine/core';
@@ -12,6 +12,17 @@ import HeaderMenu from './components/HeaderMenu';
 import Footer from './components/Footer';
 import { useState, useEffect } from 'react';
 import classes from './App.module.css'; 
+
+const ScrollToTop = () => {
+  const pathName = useLocation();
+
+  // This effect runs whenever the path name changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [pathName]);
+
+  return null;
+}
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -36,6 +47,7 @@ const App = () => {
   return (
     <MantineProvider>
       <Router>
+        <ScrollToTop />
         <div className={classes.wrapper}>
           <HeaderMenu user={user} onLogout={onLogout} />
           <main className={classes.mainContent}>

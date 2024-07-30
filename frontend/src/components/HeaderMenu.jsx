@@ -30,23 +30,27 @@ const HeaderMenu = ({ user, onLogout }) => {
     } else {
       onLogout();
     }
+    toggle()
   };
 
+  const handleRegisterClick = () => {
+    navigate('/register')
+    toggle() 
+  }
   const items = links.map((link) => {
     const menuItems = link.links?.map((item) => (
       <Menu.Item key={item.label}>    
         <Link onClick={() => toggle()} to={item.link} className={classes.link}>
           {item.label}
-         </Link>
+        </Link>
       </Menu.Item>
     ));
-
 
     if (menuItems) {
       return (
         <Menu key={link.label} trigger="hover" transitionProps={{ exitDuration: 0 }} withinPortal>
           <Menu.Target>
-            <a href={link.link} className={classes.link} onClick={() => {navigate(link.link)}}>
+            <a href={link.link} className={classes.link}>
                 <span>{link.label}</span>
                 <IconChevronDown size="1rem" stroke={1.5} />
             </a>
@@ -57,7 +61,7 @@ const HeaderMenu = ({ user, onLogout }) => {
     }
 
     return (
-      <Link key={link.label} to={link.link} className={classes.link}>
+      <Link key={link.label} to={link.link} className={classes.link} onClick={() => toggle()}>
         {link.label}
       </Link>
     );
@@ -69,7 +73,7 @@ const HeaderMenu = ({ user, onLogout }) => {
         <Group justify="space-between">
         <Group className={`${classes.group} ${classes.fullWidthGroup}`}>
         <Burger opened={opened} onClick={toggle} aria-label="Toggle navigation" hiddenFrom="sm"  />
-        <Image src ={`${import.meta.env.VITE_BACKEND_URL}/logo.png`} w='50px' h='50px'/>
+        <Image src ='../logo.svg' w='50px' h='50px'/>
         </Group>
         <Group className={classes.links} visibleFrom='sm'>
           {items}
@@ -94,7 +98,7 @@ const HeaderMenu = ({ user, onLogout }) => {
               {user ? 'Log out' : 'Log in'}
             </Button>
             {!user && (
-              <Button className={classes.authButton} onClick={() => navigate('/register')}>
+              <Button className={classes.authButton} onClick={handleRegisterClick}>
                 Register
               </Button>
             )}

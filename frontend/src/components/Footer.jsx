@@ -1,10 +1,11 @@
-import { Anchor, Group, ActionIcon, rem, Box, Container } from '@mantine/core';
+import { Link } from 'react-router-dom';
+import { Group, ActionIcon, rem, Box, Container } from '@mantine/core';
 import { IconBrandTwitter, IconBrandInstagram, IconBrandYoutube } from '@tabler/icons-react';
 import classes from './Footer.module.css';
 
 const links = [
-  { link: '#', label: 'Contact' },
-  { link: '#', label: 'About' }
+  { link: '/about', label: 'About' },
+  { link: '/contact', label: 'Contact' },
 ];
 
 const twitterLink = 'https://x.com/reebeo'
@@ -13,15 +14,9 @@ const youtubeLink = 'https://www.youtube.com/@reebeo'
 
 const Footer = () => {
   const items = links.map((link) => (
-    <Anchor
-      key={link.label}
-      href={link.link}
-      lh={1}
-      onClick={(event) => event.preventDefault()}
-      size="sm"
-    >
+    <Link key={link.label} to={link.link}>
       {link.label}
-    </Anchor>
+    </Link>
   ));
 
   return (

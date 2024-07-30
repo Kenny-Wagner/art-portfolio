@@ -9,7 +9,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use(express.static('testPics'))
+app.use(express.static('public'))
 app.use('/api/auth', authRoutes);
 app.use('/api/art', artRoutes);
 app.use('/api/s3', s3Routes)

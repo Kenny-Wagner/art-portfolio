@@ -27,7 +27,7 @@ const Footer = () => {
   return (
     <Box component="footer" className={classes.footer}>
       <Container className={classes.inner}>
-        <Box className={classes.logo}>Tibial Rose</Box>
+        <Box className={classes.logo}>Reebeo</Box>
         <Group className={classes.links}>{items}</Group>
         <Group gap="xs" justify="flex-end" wrap="nowrap">
           <ActionIcon component="a" href={instagramLink} size="lg" variant="default" radius="xl">

@@ -1,10 +1,11 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { Menu, Group, Center, Button, Container, Box, Flex } from '@mantine/core';
+import { Menu, Group, Image, Center, Button, Burger, Container, Drawer, Stack } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconChevronDown } from '@tabler/icons-react';
 import classes from './HeaderMenu.module.css';
 
 const HeaderMenu = ({ user, onLogout }) => {
+  const [opened, { toggle }] = useDisclosure();
   const links = [
     {
       link: '#1',
@@ -21,7 +22,6 @@ const HeaderMenu = ({ user, onLogout }) => {
     user?.isAdmin ? { link: '/manage-art', label: 'Manage Art' } : null,
   ].filter(Boolean);
 
-  const [opened, { toggle }] = useDisclosure(false);
   const navigate = useNavigate();
 
   const handleLoginLogout = () => {
@@ -35,7 +35,7 @@ const HeaderMenu = ({ user, onLogout }) => {
   const items = links.map((link) => {
     const menuItems = link.links?.map((item) => (
       <Menu.Item key={item.label}>    
-        <Link to={item.link} className={classes.link}>
+        <Link onClick={() => toggle()} to={item.link} className={classes.link}>
           {item.label}
          </Link>
       </Menu.Item>
@@ -46,11 +46,9 @@ const HeaderMenu = ({ user, onLogout }) => {
       return (
         <Menu key={link.label} trigger="hover" transitionProps={{ exitDuration: 0 }} withinPortal>
           <Menu.Target>
-            <a href={link.link} className={classes.link} onClick={(event) => navigate(link.link)}>
-              <Center>
+            <a href={link.link} className={classes.link} onClick={() => {toggle(); navigate(link.link)}}>
                 <span>{link.label}</span>
                 <IconChevronDown size="1rem" stroke={1.5} />
-              </Center>
             </a>
           </Menu.Target>
           <Menu.Dropdown>{menuItems}</Menu.Dropdown>
@@ -68,12 +66,14 @@ const HeaderMenu = ({ user, onLogout }) => {
   return (
     <header className={classes.header}>
       <Container size="lg">
-        <Flex className={classes.inner} justify="space-between" align="center">
-          <Box className={classes.logo}>Tibial Rose</Box>
-          <Group className={classes.links}>
+      <div className={classes.inner}>
+        <Group>
+          <Image src ={`${import.meta.env.VITE_BACKEND_URL}/Reebeo_.png`} w='50px' h='50px'/>
+        </Group>
+          <Group className={classes.links} visibleFrom='sm'>
             {items}
           </Group>
-          <Group className={classes.authButtons}>
+          <Group className={classes.authButtons} visibleFrom='sm'>
             <Button variant="default" onClick={handleLoginLogout}>
               {user ? 'Log out' : 'Log in'}
             </Button>
@@ -83,8 +83,24 @@ const HeaderMenu = ({ user, onLogout }) => {
               </Button>
             )}
           </Group>
-        </Flex>
+          <Burger opened={opened} onClick={toggle} aria-label="Toggle navigation" hiddenFrom="sm"  />
+          </div>
       </Container>
+      <Drawer offset={1} opened = {opened} onClose={toggle} position="right" hiddenFrom='sm'> 
+        <Stack hiddenFrom='sm'>
+            {items}
+            <Stack className={classes.authButtons} hiddenFrom='sm'>
+            <Button variant="default" onClick={handleLoginLogout}>
+              {user ? 'Log out' : 'Log in'}
+            </Button>
+            {!user && (
+              <Button className={classes.authButton} onClick={() => navigate('/register')}>
+                Register
+              </Button>
+            )}
+          </Stack>
+        </Stack>
+      </Drawer>
     </header>
   );
 };

@@ -19,10 +19,10 @@ const About = () => {
       <Paper className={classes.aboutPaper}>
         <div className={classes.profileContainer}>
           <Image
-            src={`${import.meta.env.VITE_BACKEND_URL}/rose_nonprofessional.jpg`}
+            src={`${import.meta.env.VITE_BACKEND_URL}/about.jpg`}
             alt="Profile"
-            width={100}
-            height={100}
+            width={125}
+            height={125}
             radius="md"
             className={classes.profileImage}
           />

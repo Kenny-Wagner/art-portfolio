@@ -36,9 +36,5 @@
 
 .authButtons {
   display: flex;
-  align-items: center;
-}
-
-.authButton {
-  margin-left: 1rem; /* Adjust this to increase space between login and register buttons */
+  align-items: flex-start;
 }

@@ -1,42 +1,29 @@
-.modal {
-    max-width: 80vw;
-    max-height: 80vh;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .flexContainer {
-    height: 100%;
-    width: 100%;
-  }
-  
   .image {
-    max-width: 50vw;
-    max-height: 50vh;
+    max-height: rem(500px);
     object-fit: contain;
   }
   
-  .flexColumn {
-    flex: 1;
-    max-height: 50vh;
-  }
   
   .paperTitle {
-    max-width: 25vw;
-    margin-bottom: 20px;
+    max-width: rem(400px);
   }
   
   .paperDescription {
-    flex-grow: 1;
     display: flex;
     align-items: flex-start;
-    max-width: 25vw;
-    max-height: calc(100% - 20px - 44px - 12px);
-    overflow-y: auto;
-    word-wrap: break-word;
+    max-width: rem(400px);
     white-space: normal;
-    padding-right: 10px;
+
   }
   
+  /* Media query for when the Flex direction changes to column */
+@media (max-width: 768px) {
+  .container {
+    max-width: 400px; /* Set the max-width when in column layout */
+  }
+
+  .paperTitle,
+  .paperDescription {
+    max-width: 400px; /* Match the width of the container */
+  }
+}

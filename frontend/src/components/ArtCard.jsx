@@ -1,16 +1,16 @@
-import { Card, Text, Group } from '@mantine/core';
+import {Paper, BackgroundImage, Title, Text } from '@mantine/core';
 import classes from './ArtCard.module.css';
 
 const ArtCard = ({ art, setArtpiece, open }) => {
-
   const handleClick = () => {
-    setArtpiece(art)
+    setArtpiece(art);
     setTimeout(() => {
       open();
-    }, 1); //Need or else inital transition on modal open doesn't render
-  }
+    }, 1); // Need or else initial transition on modal open doesn't render
+  };
+
   return (
-    <Card
+    <Paper
       p="lg"
       shadow="lg"
       className={classes.card}
@@ -18,23 +18,15 @@ const ArtCard = ({ art, setArtpiece, open }) => {
       component="button"
       onClick={handleClick}
     >
-      <div
-        className={classes.image}
-        style={{
-          backgroundImage: `url(${art.imageUrl})`,
-        }}
-      />
+      <BackgroundImage src={art.imageUrl} className={classes.image} />
       <div className={classes.overlay} />
-
       <div className={classes.content}>
-        <div>
-          <Text size="lg" className={classes.title} fw={500}>
-            {art.title}
-          </Text>
-        </div>
+        <Text size="lg" className={classes.title} fw={500}>
+          {art.title}
+        </Text>
       </div>
-    </Card>
+    </Paper>
   );
-}
+};
 
 export default ArtCard;

@@ -1,29 +1,29 @@
 import axios from 'axios';
 
-const API_URL = `${import.meta.env.VITE_BACKEND_URL}/api/art/`;
+const baseUrl = '/api/art/';
 
 const getToken = () => {
   return JSON.parse(localStorage.getItem('user')).token;
 }
 
 const getArt = () => {
-  return axios.get(API_URL);
+  return axios.get(baseUrl);
 };
 
 const createArt = (data) => {
-  return axios.post(API_URL, data, {
+  return axios.post(baseUrl, data, {
     headers: { 'Authorization': `Bearer ${getToken()}` },
   });
 };
 
 const updateArt = (id, data) => {
-  return axios.put(API_URL + id, data, {
+  return axios.put(baseUrl + id, data, {
     headers: { 'Authorization': `Bearer ${getToken()}` },
   });
 };
 
 const deleteArt = (id) => {
-  return axios.delete(API_URL + id, {
+  return axios.delete(baseUrl + id, {
     headers: { 'Authorization': `Bearer ${getToken()}` },
   });
 };

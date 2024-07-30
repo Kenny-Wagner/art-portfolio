@@ -1,10 +1,10 @@
 import axios from 'axios'
 
-const API_URL = `${import.meta.env.VITE_BACKEND_URL}/api/`;
+const baseUrl = `/api`;
 
 const getSignedUrl = async ({ key, content_type }) => {
     try {
-        const response = await axios.post(`${API_URL}s3/signed_url`, {
+        const response = await axios.post(`${baseUrl}/s3/signed_url`, {
             key, 
             content_type
         });

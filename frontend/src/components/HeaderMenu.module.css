@@ -1,19 +1,8 @@
 .header {
-  padding: 1rem 2rem; /* Adjust this for overall padding */
+  padding: 1rem 0.5rem; /* Adjust this for overall padding */
   margin-bottom: rem(40px);
   background-color: var(--mantine-color-body);
   border-bottom: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
-}
-
-.inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  font-size: 1.5rem;
-  font-weight: bold;
 }
 
 .links {
@@ -37,4 +26,21 @@
 .authButtons {
   display: flex;
   align-items: flex-start;
+}
+
+.group {
+  display: flex;
+  align-items: center;
+}
+
+.fullWidthGroup {
+  justify-content: space-between;
+  width: 100%;
+}
+
+@media (min-width: $mantine-breakpoint-sm) {
+  .fullWidthGroup {
+    justify-content: flex-start;
+    width: auto;
+  }
 }

@@ -46,7 +46,7 @@ const HeaderMenu = ({ user, onLogout }) => {
       return (
         <Menu key={link.label} trigger="hover" transitionProps={{ exitDuration: 0 }} withinPortal>
           <Menu.Target>
-            <a href={link.link} className={classes.link} onClick={() => {toggle(); navigate(link.link)}}>
+            <a href={link.link} className={classes.link} onClick={() => {navigate(link.link)}}>
                 <span>{link.label}</span>
                 <IconChevronDown size="1rem" stroke={1.5} />
             </a>
@@ -66,27 +66,27 @@ const HeaderMenu = ({ user, onLogout }) => {
   return (
     <header className={classes.header}>
       <Container size="lg">
-      <div className={classes.inner}>
-        <Group>
-          <Image src ={`${import.meta.env.VITE_BACKEND_URL}/Reebeo_.png`} w='50px' h='50px'/>
+        <Group justify="space-between">
+        <Group className={`${classes.group} ${classes.fullWidthGroup}`}>
+        <Burger opened={opened} onClick={toggle} aria-label="Toggle navigation" hiddenFrom="sm"  />
+        <Image src ={`${import.meta.env.VITE_BACKEND_URL}/logo.png`} w='50px' h='50px'/>
         </Group>
-          <Group className={classes.links} visibleFrom='sm'>
-            {items}
-          </Group>
-          <Group className={classes.authButtons} visibleFrom='sm'>
-            <Button variant="default" onClick={handleLoginLogout}>
-              {user ? 'Log out' : 'Log in'}
-            </Button>
-            {!user && (
-              <Button className={classes.authButton} onClick={() => navigate('/register')}>
-                Register
-              </Button>
-            )}
-          </Group>
-          <Burger opened={opened} onClick={toggle} aria-label="Toggle navigation" hiddenFrom="sm"  />
-          </div>
+        <Group className={classes.links} visibleFrom='sm'>
+          {items}
+        </Group>
+        <Group className={classes.authButtons} visibleFrom='sm'>
+        <Button variant="default" onClick={handleLoginLogout}>
+          {user ? 'Log out' : 'Log in'}
+        </Button>
+        {!user && (
+          <Button className={classes.authButton} onClick={() => navigate('/register')}>
+            Register
+          </Button>
+        )}
+        </Group>
+      </Group>
       </Container>
-      <Drawer offset={1} opened = {opened} onClose={toggle} position="right" hiddenFrom='sm'> 
+      <Drawer size="md" opened = {opened} onClose={toggle} position="left" hiddenFrom='sm'> 
         <Stack hiddenFrom='sm'>
             {items}
             <Stack className={classes.authButtons} hiddenFrom='sm'>

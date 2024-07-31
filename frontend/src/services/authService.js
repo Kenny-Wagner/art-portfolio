@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const baseUrl = '/api/auth';
+const devHost = import.meta.env.VITE_BACKEND_URL || '';
+const baseUrl = `${devHost}/api/auth`;
 
 const register = (username, password) => {
   return axios.post(baseUrl + '/register', { username, password });

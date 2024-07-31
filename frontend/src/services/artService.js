@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const baseUrl = '/api/art/';
+const devHost = import.meta.env.VITE_BACKEND_URL || '';
+const baseUrl = `${devHost}/api/art/`;
 
 const getToken = () => {
   return JSON.parse(localStorage.getItem('user')).token;

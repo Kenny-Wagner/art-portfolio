@@ -10,7 +10,6 @@ const ArtModal = ({ artpiece, opened, close }) => {
       <Modal 
         opened={opened} 
         onClose={close} 
-        withCloseButton={false} 
         overlayProps={{
           backgroundOpacity: 0.55,
           blur: 3,

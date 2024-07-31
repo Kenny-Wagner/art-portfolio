@@ -43,7 +43,7 @@ const Collections = () => {
       <SimpleGrid 
         cols={{ base: 2, lg: 3 }}>
           {filteredArt().map((piece) => (
-            <ArtCard art={piece} setArtpiece={setArtpiece} open={open} />
+            <ArtCard key={piece.id} art={piece} setArtpiece={setArtpiece} open={open} />
           ))}
       </SimpleGrid>
       <ArtModal artpiece={artpiece} opened={opened} close={close} />

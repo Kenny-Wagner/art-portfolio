@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "build:ui": "rm -rf dist && cd ../frontend && npm run build && cp -r dist ../backend && cd ../backend",
     "dev": "nodemon index.js",
     "migration:down": "node util/rollback.js"
   },

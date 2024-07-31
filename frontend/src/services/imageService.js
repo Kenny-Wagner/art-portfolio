@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-const baseUrl = `/api`;
+const devHost = import.meta.env.VITE_BACKEND_URL || '';
+const baseUrl = `${devHost}/api`;
 
 const getSignedUrl = async ({ key, content_type }) => {
     try {

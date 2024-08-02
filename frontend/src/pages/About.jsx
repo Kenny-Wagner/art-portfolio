@@ -9,7 +9,7 @@ const About = () => {
 
   useEffect(() => {
     artService.getArt().then((response) => {
-      const filteredArt = response.data.filter((art) => art.type !== 'animation' && art.sold === true)
+      const filteredArt = response.data.filter((art) => art.type === "fanart")
       setArt(filteredArt);
     });
   }, []);

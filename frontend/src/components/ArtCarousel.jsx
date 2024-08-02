@@ -26,7 +26,7 @@ const ArtCarouselCard = ({ artpiece }) => {
           View in collection
         </Button>
         <Text className={classes.category} size="xs">
-          Sold for ${artpiece.price}
+          Available for ${artpiece.price}
         </Text>
       </Group>
     </Paper>

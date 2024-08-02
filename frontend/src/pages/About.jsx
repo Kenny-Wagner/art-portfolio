@@ -19,7 +19,7 @@ const About = () => {
       <Paper className={classes.aboutPaper}>
         <div className={classes.profileContainer}>
           <Image
-            src={`/about.jpg`}
+            src={`${artService.devHost}/about.jpg`}
             alt="Profile"
             width={125}
             height={125}
@@ -29,8 +29,7 @@ const About = () => {
           <div>
             <Title order={2}>About Me!</Title>
             <Text mt="sm" className={classes.aboutText}>
-              Rose was born in Cape May NJ before moving to Sicklerville, NJ and attended Timber Creek High School, graduating in 2017. She currently resides in Collingswood.
-              Rose is currently a mortuary student attending Mercer County community college, on the path of becoming a funeral director while she completes her internship with us. 
+            Hello! I’m Reebeo, I mostly make art for fun but feel free to reach out to me with commissions or requests for prints!
             </Text>
           </div>
         </div>

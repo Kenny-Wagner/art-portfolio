@@ -2,7 +2,6 @@ import { Modal, Image, Flex, Paper, Title, Text, Stack, Container, Center } from
 import styles from './ArtModal.module.css';
 
 const ArtModal = ({ artpiece, opened, close }) => {
-
   if (!artpiece) return null;
 
   return (

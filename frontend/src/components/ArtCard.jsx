@@ -1,4 +1,4 @@
-import {Paper, BackgroundImage, Title, Text } from '@mantine/core';
+import { Paper, BackgroundImage, Text } from '@mantine/core';
 import classes from './ArtCard.module.css';
 
 const ArtCard = ({ art, setArtpiece, open }) => {

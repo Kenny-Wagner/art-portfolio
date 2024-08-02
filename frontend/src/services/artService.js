@@ -29,4 +29,4 @@ const deleteArt = (id) => {
   });
 };
 
-export default { getArt, createArt, updateArt, deleteArt };
+export default { getArt, createArt, updateArt, deleteArt, devHost };

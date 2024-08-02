@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Container, SimpleGrid, Loader } from '@mantine/core';
+import { Container, SimpleGrid, Loader, Center } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import ArtCard from '../components/ArtCard';
 import artService from '../services/artService';
@@ -36,7 +36,7 @@ const Collections = () => {
     });
   }, [id, open]);
 
-  if (loading) return <Loader size="xl" />;
+  if (loading) return <Center><Loader size="xl" /></Center>;
 
   return (
     <Container py="xl">

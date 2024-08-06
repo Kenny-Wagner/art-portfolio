@@ -5,7 +5,7 @@ import { IconChevronDown } from '@tabler/icons-react';
 import classes from './HeaderMenu.module.css';
 
 const HeaderMenu = ({ user, onLogout }) => {
-  const [opened, { toggle }] = useDisclosure();
+  const [opened, { open, close }] = useDisclosure(false);
   const links = [
     {
       link: '#1',
@@ -30,17 +30,17 @@ const HeaderMenu = ({ user, onLogout }) => {
     } else {
       onLogout();
     }
-    toggle()
+    close()
   };
 
   const handleRegisterClick = () => {
     navigate('/register')
-    toggle() 
+    close() 
   }
   const items = links.map((link) => {
     const menuItems = link.links?.map((item) => (
       <Menu.Item key={item.label}>    
-        <Link onClick={() => toggle()} to={item.link} className={classes.link}>
+        <Link onClick={close} to={item.link} className={classes.link}>
           {item.label}
         </Link>
       </Menu.Item>
@@ -61,7 +61,7 @@ const HeaderMenu = ({ user, onLogout }) => {
     }
 
     return (
-      <Link key={link.label} to={link.link} className={classes.link} onClick={() => toggle()}>
+      <Link key={link.label} to={link.link} className={classes.link} onClick={close}>
         {link.label}
       </Link>
     );
@@ -72,7 +72,7 @@ const HeaderMenu = ({ user, onLogout }) => {
       <Container size="lg">
         <Group justify="space-between">
         <Group className={`${classes.group} ${classes.fullWidthGroup}`}>
-        <Burger opened={opened} onClick={toggle} aria-label="Toggle navigation" hiddenFrom="sm"  />
+        <Burger opened={opened} onClick={open} aria-label="Toggle navigation" hiddenFrom="sm"  />
         <Image src ='../logo.svg' w='50px' h='50px'/>
         </Group>
         <Group className={classes.links} visibleFrom='sm'>
@@ -83,14 +83,14 @@ const HeaderMenu = ({ user, onLogout }) => {
           {user ? 'Log out' : 'Log in'}
         </Button>
         {!user && (
-          <Button className={classes.authButton} onClick={() => navigate('/register')}>
+          <Button className={classes.authButton} onClick={handleRegisterClick}>
             Register
           </Button>
         )}
         </Group>
       </Group>
       </Container>
-      <Drawer size="md" opened = {opened} onClose={toggle} position="left" hiddenFrom='sm'> 
+      <Drawer size="md" opened = {opened} onClose={close} position="left" hiddenFrom='sm'> 
         <Stack hiddenFrom='sm'>
             {items}
             <Stack className={classes.authButtons} hiddenFrom='sm'>

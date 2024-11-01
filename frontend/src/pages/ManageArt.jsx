@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, Center, Grid, Group, Button, FileButton,
-   Modal, Text, TextInput, Textarea, NumberInput, Loader, Progress  } from '@mantine/core';
+import { Container, Center, SimpleGrid, Group, Button, FileButton,
+   Modal, Text, TextInput, Textarea, NumberInput, Loader, Progress, Stack  } from '@mantine/core';
 import artService from '../services/artService';
 import imageService from '../services/imageService';
 import ArtCard from '../components/ArtCard';
@@ -25,7 +25,6 @@ const ManageArt = ({user}) => {
     setFileLink('')
     resetRef.current?.();
   };
-  const navigate = useNavigate()
 
   useEffect(() => {
     artService.getArt().then(response => {
@@ -94,32 +93,37 @@ const ManageArt = ({user}) => {
     setDeleting(null);
   };
 
-  if (loading) return <Loader size="xl" />;
-
-  if (!user?.isAdmin){
-    navigate('/')
+  const setActiveEditState = (piece) => {
+    setEditing(piece);
+    setTitle(piece.title);
+    setDescription(piece.description);
+    setPrice(piece.price);
+    setOpened(true);
   }
+
+  if (loading) return <Loader size="xl" />;
 
   return (
     <Container>
       <Center  mt="md">
         <Button onClick={() => setOpened(true)} mb="md">Add Art</Button> 
       </Center>
-      <Grid>
-        {art.map(artPiece => (
-          <Grid.Col key={artPiece.id} span={4}>
-            <ArtCard art={artPiece} />
-            <Button onClick={() => {
-              setEditing(artPiece);
-              setTitle(artPiece.title);
-              setDescription(artPiece.description);
-              setPrice(artPiece.price);
-              setOpened(true);
-            }} mt="sm">Edit</Button>
-            <Button onClick={() => setDeleting(artPiece)} color="red" mt="sm">Delete</Button>
-          </Grid.Col>
-        ))}
-      </Grid>
+      <SimpleGrid cols={{ base: 2, lg: 3 }}>
+        {art.map(piece => 
+          <Stack key ={piece.id}>
+            <ArtCard art = {piece}/>
+            <Group justify='center'>
+              <Button onClick={()=>setActiveEditState(piece)}>
+                Edit
+              </Button>
+              <Button 
+                onClick={() => setDeleting(piece)} 
+                color="red">Delete
+              </Button>
+            </Group>
+          </Stack>
+        )}
+      </SimpleGrid>
       <Modal opened={opened} onClose={clearModal} title={editing ? "Edit Art" : "Add Art"}>
         <TextInput label="Title" value={title} onChange={(e) => setTitle(e.target.value)} required />
         <Textarea label="Description" value={description} onChange={(e) => setDescription(e.target.value)} required />

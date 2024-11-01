@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { MantineProvider } from '@mantine/core';
 import { useState, useEffect } from 'react';
 import Collections from './pages/Collections';
@@ -23,6 +23,9 @@ const ScrollToTop = () => {
 
 const App = () => {
   const [user, setUser] = useState(null);
+  
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const onLogin = (loggedInUser) => {
     setUser(loggedInUser);
@@ -31,6 +34,10 @@ const App = () => {
   const onLogout = () => {
     localStorage.removeItem('user');
     setUser(null);
+
+    if (location.pathname.includes('manage-art')) {
+      navigate('/')
+    }
   };
 
   useEffect(() => {

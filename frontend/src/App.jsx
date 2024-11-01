@@ -1,7 +1,6 @@
-import { BrowserRouter as Router, Routes, Route, useLocation} from 'react-router-dom';
-import "@mantine/core/styles.css"; //Do not remove
-import '@mantine/carousel/styles.css';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { MantineProvider } from '@mantine/core';
+import { useState, useEffect } from 'react';
 import Collections from './pages/Collections';
 import About from './pages/About';
 import Contact from './pages/Contact';
@@ -10,19 +9,17 @@ import Login from './pages/Login';
 import ManageArt from './pages/ManageArt';
 import HeaderMenu from './components/HeaderMenu';
 import Footer from './components/Footer';
-import { useState, useEffect } from 'react';
-import classes from './App.module.css'; 
+import classes from './App.module.css';
 
 const ScrollToTop = () => {
-  const pathName = useLocation();
+  const { pathname } = useLocation();
 
-  // This effect runs whenever the path name changes
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [pathName]);
+  }, [pathname]);
 
   return null;
-}
+};
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -46,23 +43,21 @@ const App = () => {
 
   return (
     <MantineProvider>
-      <Router>
-        <ScrollToTop />
-        <div className={classes.wrapper}>
-          <HeaderMenu user={user} onLogout={onLogout} />
-          <main className={classes.mainContent}>
-            <Routes>
-              <Route path="/" element={<Collections />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/login" element={<Login onLogin={onLogin} onLogout={onLogout} user={user} />} />
-              <Route path="/manage-art" element={<ManageArt user={user} />} />
-            </Routes>
-          </main>
-          <Footer />
-        </div>
-      </Router>
+      <ScrollToTop />
+      <div className={classes.wrapper}>
+        <HeaderMenu user={user} onLogout={onLogout} />
+        <main className={classes.mainContent}>
+          <Routes>
+            <Route path="/" element={<Collections />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login onLogin={onLogin} onLogout={onLogout} user={user} />} />
+            <Route path="/manage-art" element={<ManageArt user={user} />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
     </MantineProvider>
   );
 };

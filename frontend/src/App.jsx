@@ -1,4 +1,7 @@
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import "@mantine/core/styles.css"; // Do not remove
+import '@mantine/carousel/styles.css';
+
 import { MantineProvider } from '@mantine/core';
 import { useState, useEffect } from 'react';
 import Collections from './pages/Collections';
@@ -60,7 +63,7 @@ const App = () => {
             <Route path="/contact" element={<Contact />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login onLogin={onLogin} onLogout={onLogout} user={user} />} />
-            <Route path="/manage-art" element={<ManageArt user={user} />} />
+            <Route path="/manage-art" element={<ManageArt />} />
           </Routes>
         </main>
         <Footer />

@@ -9,7 +9,7 @@ const About = () => {
 
   useEffect(() => {
     artService.getArt().then((response) => {
-      const filteredArt = response.data.filter((art) => art.type === "fanart")
+      const filteredArt = response.data.filter((art) => art.type === "FanArt")
       setArt(filteredArt);
     });
   }, []);
@@ -29,7 +29,7 @@ const About = () => {
           <div>
             <Title order={2}>About Me!</Title>
             <Text mt="sm" className={classes.aboutText}>
-            Hello! I’m Reebeo, I mostly make art for fun but feel free to reach out to me with commissions or requests for prints!
+              Hello! I’m Reebeo, I mostly make art for fun but feel free to reach out to me with commissions or requests for prints!
             </Text>
           </div>
         </div>

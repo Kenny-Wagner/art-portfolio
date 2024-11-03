@@ -34,9 +34,7 @@ const Collections = () => {
       if (id) {
         const filteredPiece = response.data.find((piece) => piece.id === id);
         setArtpiece(filteredPiece);
-        setTimeout(() => {
-          open();
-        }, 1);
+        open()
       }
     });
   }, [id, open]);

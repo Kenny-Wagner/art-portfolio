@@ -18,7 +18,7 @@ const Collections = () => {
   const id = Number(queryParams.get('id')) || null;
 
   const filteredArt = () => {
-    return filter === 'all' ? art : art.filter((piece) => piece.type === filter);
+    return filter === 'all' ? art : art.filter((piece) => piece.type.toLowerCase() === filter);
   };
 
   useEffect(() => {

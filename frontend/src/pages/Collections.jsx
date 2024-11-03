@@ -21,6 +21,11 @@ const Collections = () => {
     return filter === 'all' ? art : art.filter((piece) => piece.type.toLowerCase() === filter);
   };
 
+  const handleCardClick = (piece) => {
+    setArtpiece(piece);
+    open();
+  };
+
   useEffect(() => {
     artService.getArt().then((response) => {
       setArt(response.data);
@@ -40,11 +45,10 @@ const Collections = () => {
 
   return (
     <Container py="xl">
-      <SimpleGrid 
-        cols={{ base: 2, lg: 3 }}>
-          {filteredArt().map((piece) => (
-            <ArtCard key={piece.id} art={piece} setArtpiece={setArtpiece} open={open} />
-          ))}
+      <SimpleGrid cols={{ base: 2, lg: 3 }}>
+        {filteredArt().map((piece) => (
+          <ArtCard key={piece.id} art={piece} onClick={() => handleCardClick(piece)} />
+        ))}
       </SimpleGrid>
       <ArtModal artpiece={artpiece} opened={opened} close={close} />
     </Container>

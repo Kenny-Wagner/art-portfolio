@@ -1,14 +1,7 @@
 import { Paper, BackgroundImage, Text } from '@mantine/core';
 import classes from './ArtCard.module.css';
 
-const ArtCard = ({ art, setArtpiece, open }) => {
-  const handleClick = () => {
-    setArtpiece(art);
-    setTimeout(() => {
-      open();
-    }, 1); // Need or else initial transition on modal open doesn't render
-  };
-
+const ArtCard = ({ art, onClick }) => {
   return (
     <Paper
       p="lg"
@@ -16,7 +9,7 @@ const ArtCard = ({ art, setArtpiece, open }) => {
       className={classes.card}
       radius="md"
       component="button"
-      onClick={handleClick}
+      onClick={onClick}
     >
       <BackgroundImage src={art.imageUrl} className={classes.image} />
       <div className={classes.overlay} />

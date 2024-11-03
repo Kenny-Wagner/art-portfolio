@@ -22,7 +22,7 @@ const ArtCarouselCard = ({ artpiece }) => {
         </Title>
       </div>
       <Group className={classes.infoGroup}>
-        <Button onClick = {() => navigate(`/?filter=${artpiece.type}&id=${artpiece.id}`)} variant="white" color="dark">
+        <Button onClick = {() => navigate(`/?filter=all&id=${artpiece.id}`)} variant="white" color="dark">
           View in collection
         </Button>
         <Text className={classes.category} size="xs">

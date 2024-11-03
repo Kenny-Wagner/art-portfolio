@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const {sequelize} = require('../util/db');
+const {sequelize} = require('../services/dbService');
 
 const User = require('./User')(sequelize, Sequelize.DataTypes);
 const ArtPiece = require('./ArtPiece')(sequelize, Sequelize.DataTypes);

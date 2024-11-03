@@ -1,6 +1,6 @@
 const { PutObjectCommand, DeleteObjectCommand, S3Client } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
-const { AWS } = require('./config');
+const { AWS } = require('../config/config');
 
 const s3 = new S3Client({
     region: AWS.Region,

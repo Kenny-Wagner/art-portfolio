@@ -70,7 +70,6 @@ const ManageArt = () => {
   const uploadImage = async () => {
     const imageUrl = await imageService.uploadImage(
       { file : file, type : form.getValues().type },
-      activePiece?.id || null,
       () => setUploading(true),
       () => setUploading(false)
     )
@@ -90,7 +89,6 @@ const ManageArt = () => {
     // activepiece && no file means user is not updating image on existing piece so we can just use preixisting imageUrl
     // otherwise a user is creating a new piece or updating image for existing piece, need to upload new img either way
     const imageUrl = (activePiece && !file) ? activePiece.imageUrl : await uploadImage(); 
-
     const data = { ...form.getValues(), imageUrl: imageUrl };
 
     if (activePiece) {

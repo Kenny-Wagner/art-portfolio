@@ -1,16 +1,16 @@
 const imageService = require('../services/imageService');
 
 const uploadNewImage = async (req, res) => {
+    const file = req.file
+    const key = `public/${req.body.type}/${file.originalname}`
 
-    const {file, type} = req.body
-    console.log(`req.body is ${JSON.stringify(req.body)}`)
+    try {
+        const imageUrl = await imageService.createImage(file, key);
+        res.status(201).json({imageUrl});
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    }
 
 };
 
-const updateExistingImage = async () => {
-
-};
-
-
-
-module.exports = { uploadNewImage, updateExistingImage };
+module.exports = { uploadNewImage };

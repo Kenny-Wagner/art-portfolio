@@ -26,6 +26,10 @@ const updateArtPiece = async (req, res) => {
   const { title, year, size, medium, description, price, sold, imageUrl, type } = req.body;
   try {
     const artPiece = await ArtPiece.findByPk(id);
+    //if urls are different, user uploaded a new file, need to change imageUrl and delete old image
+    if (imageUrl !== artPiece.imageUrl) {
+      await deleteImage(artPiece.imageUrl)
+    }
     if (!artPiece) return res.status(404).json({ error: 'ArtPiece not found' });
 
     await artPiece.update({ title, year, size, medium, description, price, sold, imageUrl, type });

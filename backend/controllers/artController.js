@@ -1,5 +1,5 @@
 const { ArtPiece } = require('../models');
-const { deleteImage } = require('../services/s3Service')
+const { deleteImage } = require('../services/imageService')
 
 const getArtPieces = async (req, res) => {
   try {

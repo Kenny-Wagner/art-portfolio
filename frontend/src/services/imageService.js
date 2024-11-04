@@ -3,36 +3,30 @@ import axios from 'axios'
 const devHost = import.meta.env.VITE_BACKEND_URL || '';
 const baseUrl = `${devHost}/api`;
 
-const getSignedUrl = async ({ key, content_type }) => {
-    try {
-        const response = await axios.post(`${baseUrl}/s3/signed_url`, {
-            key, 
-            content_type
-        });
-        return response.data.data
-    }
-    catch(err) {
-        console.log(`error is ${err.message}`)
-    }
-}
-
-const uploadFileToSignedUrl = async (
-    signedUrl,
-    file,
-    contentType,
-    onProgress,
-    onComplete 
-    ) => {
+const uploadImage = async ( imageData, updateId, onProgress, onComplete ) => {
         try {
-            await axios.put(signedUrl, file, {
-            onUploadProgress: onProgress,
-            headers: { "Content-Type": contentType }
-            })
+            const formData = new FormData();
+            formData.append("file", imageData.file);
+            formData.append("type", imageData.type)
+
+            let response = null;
+            if(updateId) {
+                response = await axios.put(`${baseUrl}/image/${updateId}`, 
+                    formData, 
+                    { onUploadProgress: onProgress }
+                )
+            } else {
+                response = await axios.post(`${baseUrl}/image/`, 
+                    formData, 
+                    { onUploadProgress: onProgress }
+                )
+            }
             onComplete()
+            return response.data;
+
         } catch (err) {
             console.log(`ERROR: ${err.message}`)
         }
 };
 
-
-export default { getSignedUrl, uploadFileToSignedUrl  };
+export default { uploadImage };

@@ -1,4 +1,4 @@
-const { createPresignedPost, deleteImage } = require( '../services/s3Service.js')
+const { createPresignedPost, deleteImage } = require( '../services/imageService.js')
 
 const getPresignedUrl = async (req, res) => {
     try {

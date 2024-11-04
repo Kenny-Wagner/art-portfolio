@@ -67,20 +67,15 @@ const ManageArt = () => {
     setFile(null)
   }
 
-  const uploadFile = async () => {
-    const key = `${form.getValues().type}/${file.name}`;
-    const content_type = file.type;
-    const { fileLink, signedUrl } = await imageService.getSignedUrl({ key, content_type });
-
-    await imageService.uploadFileToSignedUrl(
-      signedUrl,
-      file,
-      content_type,
+  const uploadImage = async () => {
+    const imageUrl = await imageService.uploadImage(
+      { file : file, type : form.getValues().type },
+      activePiece?.id || null,
       () => setUploading(true),
       () => setUploading(false)
     )
 
-    return fileLink;
+    return imageUrl;
   }
 
   const handleCreateOrUpdate = async (event) => {
@@ -91,7 +86,10 @@ const ManageArt = () => {
       setError(true)
       return
     }
-    const imageUrl = activePiece?.imageUrl || await uploadFile()
+    
+    // activepiece && no file means user is not updating image on existing piece so we can just use preixisting imageUrl
+    // otherwise a user is creating a new piece or updating image for existing piece, need to upload new img either way
+    const imageUrl = (activePiece && !file) ? activePiece.imageUrl : await uploadImage(); 
 
     const data = { ...form.getValues(), imageUrl: imageUrl };
 
@@ -161,7 +159,7 @@ const ManageArt = () => {
           </Stack>
         )}
       </SimpleGrid>
-      <Modal opened={editing} onClose={clearModal} title={activePiece ? "Edit Art" : "Add Art"}>
+      <Modal opened={editing} onClose={clearModal} closeOnClickOutside={false} title={activePiece ? "Edit Art" : "Add Art"}>
         {error && <Alert variant="filled" color="red" withCloseButton title="Error" onClose = {() => setError(false)}> You must select an image!</Alert>}
         <form onSubmit = {(event) =>handleCreateOrUpdate(event)}>
           <TextInput label="Title" key = {form.key('title')} {...form.getInputProps('title')} withAsterisk />

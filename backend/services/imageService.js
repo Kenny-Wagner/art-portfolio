@@ -11,7 +11,7 @@ const s3 = new S3Client({
 })
 const BUCKET_NAME = AWS.BucketName
 
-const createPresignedPost = async ({key, contentType}) => {
+const createPresignedUrl = async ({key, contentType}) => {
     console.log(`key is ${key}`)
     const command = new PutObjectCommand ({
         Bucket: BUCKET_NAME,
@@ -30,6 +30,14 @@ const createPresignedPost = async ({key, contentType}) => {
 
 }
 
+const createImage = async () => {
+
+}
+
+const updateImage = async () => {
+
+}
+
 const deleteImage = async (imageUrl) => {
     const command = new DeleteObjectCommand ({
         Bucket: AWS.BucketName,
@@ -44,4 +52,4 @@ const deleteImage = async (imageUrl) => {
     }
 }
 
-module.exports = { createPresignedPost, deleteImage }
+module.exports = { createImage, updateImage }

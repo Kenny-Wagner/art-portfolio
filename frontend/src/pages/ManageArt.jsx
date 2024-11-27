@@ -17,6 +17,7 @@ const ManageArt = () => {
   const [activePiece, setActivePiece] = useState(null);
   const [error, setError] = useState(false)
   const [file, setFile] = useState(null);
+  const [fileLoading, setFileLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const resetRef = useRef(null);
   const artTypes = ['Animation', 'FanArt', 'Original'];
@@ -45,17 +46,17 @@ const ManageArt = () => {
     }
   })
 
-  const clearFile = () => {
-    setFile(null);
-    resetRef.current?.();
-  };
-
   useEffect(() => {
     artService.getArt().then(response => {
       setArt(response.data);
       setLoading(false);
     });
   }, []);
+
+  const clearFile = () => {
+    setFile(null);
+    resetRef.current?.();
+  };
 
   const clearModal = () => {
     if (editing) {
@@ -68,8 +69,15 @@ const ManageArt = () => {
   }
 
   const uploadImage = async () => {
+
+    let fileToUpload = file;
+
+    if (fileToUpload.type !== 'image/gif'){
+       fileToUpload = await imageService.resizeImage(fileToUpload)
+    } 
+
     const imageUrl = await imageService.uploadImage(
-      { file : file, type : form.getValues().type },
+      { file : fileToUpload, type : form.getValues().type },
       () => setUploading(true),
       () => setUploading(false)
     )
@@ -133,6 +141,20 @@ const ManageArt = () => {
     setDeleting(true);
   }
 
+  //not using for now, need to figure out if offloading upload is necessary, was slow at work
+  const handleFileSelect = (selectedFile) => {
+    console.log('in handleFileSelect')
+    const fileLoaderWorker = new Worker(new URL("../workers/fileLoaderWorker.js", import.meta.url));
+    
+    fileLoaderWorker.postMessage(selectedFile)
+    setFileLoading(true)
+
+    fileLoaderWorker.onmessage = (event) => {
+      setFile(event.data)
+      setFileLoading(false)
+    }
+  }
+  
   if (loading) return <Center><Loader size="xl" /></Center>;
 
   return (
